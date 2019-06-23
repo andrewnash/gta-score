@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/index.css') }}">
+  </head>
+  <body>
+    <div class="s01">
+      <form>
+        <div class="inner-form">
+          <div class="input-field first-wrap">
+            <input id="search" type="text" placeholder="Postal Code" />
+          </div>
+          <div class="input-field third-wrap">
+            <button class="btn-search" type="button" onclick="lookup_postal_code()">Search</button>
+          </div>
+          <div class="input-field third-wrap">
+            <button class="btn-search" type="button" onclick="location.href='http://127.0.0.1:5000/kijiji_map';">View Listings</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>
+  <script>
+  function lookup_postal_code() {
+    var postal_code = document.getElementById("search").value;
+    postal_code = postal_code.toUpperCase().replace(' ','');
+    console.log(postal_code);
+    if (postal_code[0] === 'M' && postal_code.length === 6) {
+        fetch(`http://localhost:5000/lookup_postal_code/${postal_code}`, {
+          method: 'GET',
+          dataType: 'json'
+        }).then(res => res.json())
+          .then(json => console.log(json.data));
+    };
+  }
+  </script>
+</html>
+
+
